@@ -1,4 +1,4 @@
-# Stockrobber, ny premiumsida
+# Stockrobber, ny premiumsida (privatbank-utgåvan)
 
 Statisk sida (HTML, CSS, JS). Ingen byggprocess behövs. Allt ligger i den här mappen.
 
@@ -6,11 +6,10 @@ Statisk sida (HTML, CSS, JS). Ingen byggprocess behövs. Allt ligger i den här 
 index.html          sidan
 css/site.css        design (färger, typsnitt, layout)
 css/scrollcraft.css scroll-motorns grund (rör inte)
-js/site.js          meny, formulär, loggans ticker, boken. LÄNKAR LIGGER HÖGST UPP HÄR
-js/hero3d.js        3D-scenen i heron (Three.js)
+js/site.js          meny, formulär, hero-gravyren, loggans ticker, boken. LÄNKAR LIGGER HÖGST UPP HÄR
 js/scrollcraft.js   scroll-motorn (rör inte)
 assets/             porträtt, topplista, favicon, delningsbild
-fonts/ vendor/      självhostade typsnitt och Three.js
+fonts/              självhostade typsnitt (Source Serif 4, Hanken Grotesk)
 BRIEF.md DESIGN.md  designbeslut
 ```
 
@@ -24,7 +23,7 @@ cd stockrobber
 python3 -m http.server 4500
 ```
 
-Öppna http://localhost:4500. Sidan måste köras via en server; att dubbelklicka på `index.html` fungerar inte på grund av JavaScript-modulerna.
+Öppna http://localhost:4500.
 
 ## Lägg upp på Vercel
 
@@ -88,4 +87,4 @@ Texter som är **platshållare** (syntes inte i underlaget) och som du bör byta
 - Tillgänglighetswidgeten från den gamla sidan (den blå knappen) är inte med. Den kan läggas tillbaka med samma skript som tidigare.
 
 ## Licenser
-Three.js (MIT), Archivo och Geist (SIL Open Font License), scroll-craft-motorn (MIT).
+Source Serif 4 och Hanken Grotesk (SIL Open Font License), scroll-craft-motorn (MIT).
