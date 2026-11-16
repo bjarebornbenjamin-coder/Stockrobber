@@ -12,7 +12,7 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/portrait.webp" as="image">
+<link rel="preload" href="assets/hero-photo.webp" as="image">
 <link rel="stylesheet" href="css/scrollcraft.css">
 <link rel="stylesheet" href="css/site.css">
 <script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
@@ -100,9 +100,8 @@
     <div data-sc-stage class="hero__stage">
       <div class="hero__poster" aria-hidden="true"></div>
       <canvas class="hero__gl" aria-hidden="true"></canvas>
-      <div class="hero__word" aria-hidden="true">STOCKROBBER</div>
       <figure class="hero__person">
-        <img src="assets/portrait.webp" width="735" height="749" alt="Stockrobber, grundare och lärare, i ljusblå kavaj" fetchpriority="high">
+        <img src="assets/hero-photo.webp" width="694" height="735" alt="Stockrobber, grundare och lärare, i ljusblå kavaj" fetchpriority="high">
       </figure>
       <svg class="hero__fore" viewBox="0 0 1600 400" preserveAspectRatio="none" aria-hidden="true">
         <path class="hero__fore-glow" d="M0 330 C120 320 180 352 260 336 S400 290 470 300 S600 340 690 296 S840 220 930 240 S1080 196 1160 170 S1320 150 1400 96 S1520 70 1600 40"/>
@@ -111,9 +110,22 @@
       <div class="hero__scrim" aria-hidden="true"></div>
       <div class="hero__copy" data-sc-cue="0 0.82 0">
         <h1 class="hero__title" data-split>Önskar du att bli framgångsrik på börsen genom tekniska och fundamentala analyser?</h1>
-        <div class="hero__actions">
-          <a class="btn" href="#kurs" data-sc-magnet="0.22">Mer om utbildningen</a>
-          <a class="link" href="#medlemskap">Vilket upplägg passar mig?</a>
+        <div class="answer" role="group" aria-label="Svara på frågan">
+          <button class="answer__opt" type="button" data-answer="follow">
+            <span class="answer__yes">Ja.</span>
+            <span class="answer__text">Jag vill följa analyserna</span>
+          </button>
+          <button class="answer__opt" type="button" data-answer="learn">
+            <span class="answer__yes">Ja.</span>
+            <span class="answer__text">Jag vill lära mig grunderna</span>
+          </button>
+        </div>
+        <div class="hero__under">
+          <a class="link" href="#kurs">Mer om utbildningen</a>
+          <p class="hero__proof">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.9 4 4.4.5-3.3 3 .9 4.4L8 11.2 4.1 13.4 5 9 1.7 6l4.4-.5L8 1.5Z" fill="currentColor"/></svg>
+            Sveriges mest framgångsrika Patreon 2021, enligt TV4 Nyhetsmorgon
+          </p>
         </div>
       </div>
       <div class="hero__floor" aria-hidden="true"></div>

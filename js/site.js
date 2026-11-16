@@ -389,6 +389,28 @@
       new IntersectionObserver(function (en) { pathVisible = en[0].isIntersecting; updateDock(); }, { threshold: 0, rootMargin: '-140px 0px -140px 0px' }).observe(pathEl);
     }
 
+    // The hero's answer buttons start the path with question one answered.
+    function startFromHero(v) {
+      var input = quiz.querySelector('input[name="q1"][value="' + v + '"]');
+      if (!input) return;
+      quiz.reset(); input.checked = true;
+      current = null; combo = false; showAll = false; store.del('sr-path');
+      showStep(v);
+      if (deck.getAttribute('data-state') === 'stack') deck.setAttribute('data-state', 'fan');
+      layout();
+      pathEl.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      var first = steps[v].querySelector('input');
+      setTimeout(function () { if (first) first.focus({ preventScroll: true }); }, reduce ? 0 : 900);
+    }
+    document.querySelectorAll('[data-answer]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var v = btn.getAttribute('data-answer');
+        document.querySelectorAll('[data-answer]').forEach(function (b) { b.classList.toggle('is-chosen', b === btn); });
+        if (window.dataLayer) window.dataLayer.push({ event: 'sr_hero_answer', answer: v });
+        setTimeout(function () { startFromHero(v); }, reduce ? 0 : 220);
+      });
+    });
+
     // A returning visitor gets their path back.
     var saved = store.get('sr-path');
     if (saved && OFFERS[saved.pick]) choose(saved.pick, { combo: saved.combo, byQuiz: saved.byQuiz });
