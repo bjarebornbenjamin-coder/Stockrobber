@@ -103,51 +103,6 @@
   addEventListener('scroll', onScrollBar, { passive: true });
   onScrollBar();
 
-  // ---------------------------------------------------- hero: engraving
-  // Banknote guilloché, drawn once: interleaved waves behind, a rosette
-  // medallion behind the portrait. Pure SVG, no raster.
-  var SVGNS = 'http://www.w3.org/2000/svg';
-  function pathFrom(pts) {
-    return pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join('');
-  }
-  document.querySelectorAll('[data-guilloche="waves"]').forEach(function (svg) {
-    var d = '';
-    for (var k = 0; k < 44; k++) {
-      var pts = [];
-      for (var x = -20; x <= 420; x += 4) {
-        pts.push([x, 10 + k * 9.2 + 14 * Math.sin(x * 0.024 + k * 0.33) + 9 * Math.sin(x * 0.009 - k * 0.21)]);
-      }
-      d += pathFrom(pts);
-    }
-    var path = document.createElementNS(SVGNS, 'path'); path.setAttribute('d', d); svg.appendChild(path);
-  });
-  document.querySelectorAll('[data-guilloche="rosette"]').forEach(function (svg) {
-    var d = '';
-    for (var k = 0; k < 40; k++) {
-      var pts = [];
-      for (var t = 0; t <= Math.PI * 2 + 0.01; t += 0.012) {
-        var r = 150 + 11 * Math.sin(18 * t + k * 0.36) + 6 * Math.sin(7 * t - k * 0.52) - k * 1.15;
-        pts.push([200 + r * Math.cos(t), 200 + r * Math.sin(t)]);
-      }
-      d += pathFrom(pts) + 'Z';
-    }
-    var path = document.createElementNS(SVGNS, 'path'); path.setAttribute('d', d); svg.appendChild(path);
-  });
-
-  var scene = document.querySelector('[data-scene]');
-  if (scene && finePointer.matches && !reduce) {
-    var tx = 0, ty = 0, cx = 0, cy = 0, moving = false;
-    addEventListener('pointermove', function (e) {
-      tx = e.clientX / innerWidth - 0.5; ty = e.clientY / innerHeight - 0.5;
-      if (!moving) { moving = true; requestAnimationFrame(ease); }
-    }, { passive: true });
-    var ease = function () {
-      cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
-      scene.style.setProperty('--mx', cx.toFixed(4)); scene.style.setProperty('--my', cy.toFixed(4));
-      if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) requestAnimationFrame(ease); else moving = false;
-    };
-  }
-
   // ------------------------------------------------------------ the engine
   var sc = window.ScrollCraft ? ScrollCraft.mount(document.body) : null;
   function actFor(el) {
@@ -159,7 +114,6 @@
   var courseEl = document.querySelector('.course');
   var proofEl = document.querySelector('.proof');
   var ingressAct = actFor(ingressEl);
-  var readSpans = Array.prototype.slice.call(document.querySelectorAll('[data-read] > span'));
   var courseAct = actFor(courseEl);
 
   // --------------------------------------------- ingress: the chart turns
@@ -168,7 +122,7 @@
   var trendPath, trendLen = 0;
   if (chart) {
     var NS = 'http://www.w3.org/2000/svg';
-    var N = 30, W = 1000, H = 560, pad = 24, turn = 17;
+    var N = 34, W = 1000, H = 520, pad = 30, turn = 19;
     var seed = 7;
     var rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
     var data = [], price = 100;
@@ -270,21 +224,18 @@
     var t = docH > 0 ? clamp01(scrollY / docH) : 0;
 
     var ip = ingressAct ? ingressAct.p : 0;
-    if (readSpans.length && !reduce && ip !== last.ip) {
-      for (var r = 0; r < readSpans.length; r++) readSpans[r].classList.toggle('is-dim', ip < 0.26 + r * 0.09);
-    }
     if (chart && !reduce && ip !== last.ip) {
       var n = candles.length;
       for (var i = 0; i < n; i++) {
-        var on = ip >= 0.2 + i * (0.36 / n);
+        var on = ip >= 0.03 + i * (0.8 / n);
         if (candles[i]._on !== on) { candles[i]._on = on; candles[i].style.opacity = on ? 1 : 0; }
       }
-      trendPath.style.strokeDashoffset = (trendLen * (1 - smooth((ip - 0.2) / 0.4))).toFixed(1);
+      trendPath.style.strokeDashoffset = (trendLen * (1 - smooth((ip - 0.05) / 0.85))).toFixed(1);
       last.ip = ip;
     }
 
     var proofTop = proofEl ? proofEl.getBoundingClientRect().top : 1e9;
-    var pastTurn = ip >= 0.48;
+    var pastTurn = ingressEl && (ip >= 0.6 || ingressEl.getBoundingClientRect().bottom < innerHeight * 0.5);
     var pastProof = proofTop < innerHeight * 0.45;
     var tk = reduce ? 1 : t;
     var key = tk.toFixed(4) + pastTurn + pastProof;

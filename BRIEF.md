@@ -1,9 +1,5 @@
 # BRIEF: Stockrobber, premium-ombyggnad
 
-> **Version 2 (privatbank).** Kunden valde: ny riktning "Privatbank" (ljus, lugn, redaktionell, serif-rubriker, sparsamt grönt, få men exakta animationer), nytt typsnitt och ny hero-lösning, samt "ta bort slop". Allt nedan om den mörka versionen gäller version 1.
->
-> **Version 2, ändrat:** WebGL-heron och konturtexten borttagna. Ny hero: porträttet står framför ett graverat sedel-medaljong (guilloché i SVG) i en skogsgrön ram och bryter ramens överkant. Tagit bort: progressbar, korn, glow, magnetknapp, 3D-lutande kort, ljuskäglor, versaletiketter. Toppen (boken) och signaturen (portföljtickern) behölls.
-
 **Self-authored under explicit creative delegation.** Uppdraget: "förbättra men behålla samma funktioner som stockrobber.com. Elegant, premium, animationer, lager och 3D. Använd loggan och bilderna från nuvarande hemsida." Intervjufrågorna nedan är besvarade av mig utifrån skärmdumparna; inget är ett citat från kunden.
 
 ## Evidens (från skärmdumpar)

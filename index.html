@@ -3,23 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Stockrobber | Teknisk och fundamental analys</title>
-<meta name="description" content="Kurser och medlemskap i teknisk och fundamental analys. Sveriges mest framgångsrika Patreon 2021 enligt TV4 Nyhetsmorgon.">
-<meta name="theme-color" content="#F1F2EC">
+<title>Stockrobber | Lär dig teknisk och fundamental analys</title>
+<meta name="description" content="Bli framgångsrik på börsen med teknisk och fundamental analys. Sveriges mest framgångsrika Patreon 2021 enligt TV4 Nyhetsmorgon, plus en komplett kurs i fundamental analys.">
+<meta name="theme-color" content="#0B110C">
 <meta property="og:title" content="Stockrobber">
-<meta property="og:description" content="Kurser och medlemskap i teknisk och fundamental analys.">
+<meta property="og:description" content="Teknisk och fundamental analys, förklarat så att du kan använda det.">
 <meta property="og:image" content="assets/og.jpg">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="fonts/source-serif-4.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/geist.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/portrait.webp" as="image">
 <link rel="stylesheet" href="css/scrollcraft.css">
 <link rel="stylesheet" href="css/site.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js" } }</script>
 </head>
 <body>
 
 <a class="skip" href="#main">Hoppa till innehållet</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
 
+<!-- The logo drawing, defined once. Bars are drawn per instance so the
+     ticker can move them. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <g id="case">
@@ -53,7 +58,7 @@
       <li class="nav__item has-sub">
         <button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="sub-skola">
           Lilla aktieskolan
-          <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <ul class="sub" id="sub-skola">
           <li><a data-link="skolaGrunder" href="#">Börsens grunder</a></li>
@@ -65,7 +70,7 @@
       <li class="nav__item has-sub">
         <button class="nav__link nav__toggle" type="button" aria-expanded="false" aria-controls="sub-om">
           Om Stockrobber
-          <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <ul class="sub" id="sub-om">
           <li><a data-link="omMig" href="#">Om mig</a></li>
@@ -79,7 +84,7 @@
 
   <div class="bar__end">
     <a class="bar__cart" data-link="cart" href="#" aria-label="Varukorg">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 8.5h13l-1.1 10.6a2 2 0 0 1-2 1.9H8.6a2 2 0 0 1-2-1.9L5.5 8.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 10.5V7a3 3 0 0 1 6 0v3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z" fill="currentColor"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     </a>
     <button class="bar__menu" type="button" aria-expanded="false" aria-controls="nav">
       <span class="bar__menu-lines" aria-hidden="true"><i></i><i></i></span>
@@ -90,80 +95,76 @@
 
 <main id="main">
 
-  <!-- 1 · HERO: pin. Four planes: engraved waves, rosette, portrait, price line. -->
-  <section id="top" class="hero" data-sc-act="pin" data-sc-span="1.3">
+  <!-- 1 · HERO: pin, five planes -->
+  <section id="top" class="hero" data-sc-act="pin" data-sc-span="1.4" data-sc-drift="#0B110C">
     <div data-sc-stage class="hero__stage">
-      <div class="hero__grid">
-        <div class="hero__copy" data-sc-cue="0 0.8 0">
-          <h1 class="hero__title" data-split>Önskar du att bli framgångsrik på börsen genom tekniska och fundamentala analyser?</h1>
-          <p class="hero__lede">Kurser och medlemskap i teknisk och fundamental analys, för dig som vill förstå vad du investerar i.</p>
-          <div class="hero__actions">
-            <a class="btn" href="#kurs">Mer om utbildningen</a>
-            <a class="link" href="#medlemskap">Se medlemskapen</a>
-          </div>
-        </div>
-
-        <div class="hero__scene" data-scene>
-          <div class="hero__frame" aria-hidden="true">
-            <svg class="hero__waves" data-guilloche="waves" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice"></svg>
-            <svg class="hero__rosette" data-guilloche="rosette" viewBox="0 0 400 400"></svg>
-          </div>
-          <img class="hero__person" src="assets/portrait.webp" width="729" height="747" alt="Stockrobber, grundare och lärare, i ljusblå kavaj" fetchpriority="high">
+      <div class="hero__poster" aria-hidden="true"></div>
+      <canvas class="hero__gl" aria-hidden="true"></canvas>
+      <div class="hero__word" aria-hidden="true">STOCKROBBER</div>
+      <figure class="hero__person">
+        <img src="assets/portrait.webp" width="735" height="749" alt="Stockrobber, grundare och lärare, i ljusblå kavaj" fetchpriority="high">
+      </figure>
+      <svg class="hero__fore" viewBox="0 0 1600 400" preserveAspectRatio="none" aria-hidden="true">
+        <path class="hero__fore-glow" d="M0 330 C120 320 180 352 260 336 S400 290 470 300 S600 340 690 296 S840 220 930 240 S1080 196 1160 170 S1320 150 1400 96 S1520 70 1600 40"/>
+        <path class="hero__fore-line" d="M0 330 C120 320 180 352 260 336 S400 290 470 300 S600 340 690 296 S840 220 930 240 S1080 196 1160 170 S1320 150 1400 96 S1520 70 1600 40"/>
+      </svg>
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__copy" data-sc-cue="0 0.82 0">
+        <h1 class="hero__title" data-split>Önskar du att bli framgångsrik på börsen genom tekniska och fundamentala analyser?</h1>
+        <div class="hero__actions">
+          <a class="btn" href="#kurs" data-sc-magnet="0.22">Mer om utbildningen</a>
+          <a class="link" href="#medlemskap">Se medlemskapen</a>
         </div>
       </div>
-      <svg class="hero__line" viewBox="0 0 1600 300" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 250 C140 246 200 268 290 254 S420 214 500 222 S640 262 730 226 S880 160 970 176 S1110 140 1190 122 S1340 108 1420 70 S1530 46 1600 30"/>
-      </svg>
+      <div class="hero__floor" aria-hidden="true"></div>
     </div>
   </section>
 
-  <!-- 2 · INGRESS: flow. The sentence brightens as it is read; the chart turns. -->
-  <section class="ingress" data-sc-act="flow">
-    <div class="sc-wrap ingress__grid">
-      <p class="ingress__text" data-read>
-        <span>Det är många som känner att lönen inte riktigt räcker till,</span>
-        <span>varken för de upplevelser eller de finansiella mål man har.</span>
-        <span class="ingress__turn">Med rätt kunskap kan börsen ändra på det.</span>
-      </p>
-      <figure class="ingress__figure" aria-hidden="true">
-        <svg class="ingress__chart" data-chart viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid meet"></svg>
-      </figure>
+  <!-- 2 · INGRESS: pin, the chart turns while the text does -->
+  <section class="ingress" data-sc-act="pin" data-sc-span="2.8" data-sc-drift="#0E1610">
+    <div data-sc-stage class="ingress__stage">
+      <svg class="ingress__chart" data-chart viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+      <div class="ingress__copy">
+        <p class="ingress__line" data-sc-cue="0 0.3 0 0.08">Det är många som känner att lönen inte riktigt räcker till.</p>
+        <p class="ingress__line" data-sc-cue="0.3 0.62 0.08 0.08">Varken för de upplevelser eller de finansiella mål man har.</p>
+        <p class="ingress__line ingress__line--turn" data-sc-cue="0.62 1 0.08 0.06">Med rätt kunskap kan börsen ändra på det. Teknisk och fundamental analys, steg för steg.</p>
+      </div>
     </div>
   </section>
 
-  <!-- 3 · PROOF: hard cut to forest -->
-  <section class="proof">
-    <div class="sc-wrap">
+  <!-- 3 · PROOF: flow + iris reveal -->
+  <section class="proof" data-sc-drift="#0B110C">
+    <figure class="proof__media" data-sc-reveal="iris" data-sc-reveal-at="0.08 0.42">
+      <img src="assets/toplist.webp" width="1693" height="295" alt="Topplista över Patreon-kreatörer där Stockrobber syns" loading="lazy">
+    </figure>
+    <div class="sc-wrap proof__copy">
       <h2 class="proof__title" data-sc-in>Sveriges mest framgångsrika Patreon<span class="proof__star">*</span></h2>
-      <figure class="proof__media" data-sc-reveal="up" data-sc-reveal-at="0.12 0.5">
-        <img src="assets/toplist.webp" width="1693" height="295" alt="Topplista över Patreon-kreatörer där Stockrobber syns" loading="lazy">
-      </figure>
-      <p class="proof__note">*2021, enligt TV4 Nyhetsmorgon</p>
+      <p class="proof__note" data-sc-in>*2021, enligt TV4 Nyhetsmorgon</p>
     </div>
   </section>
 
-  <!-- 4 · MEMBERSHIP -->
-  <section id="medlemskap" class="plans">
-    <div class="sc-wrap plans__grid">
-      <header class="plans__head">
-        <h2 class="plans__title">Medlemskap på Patreon</h2>
-        <p class="plans__lede">Analyser av aktier, råvaror och index, direkt från mig. Välj den nivå som passar dig.</p>
+  <!-- 4 · MEMBERSHIP: hard cut to sage -->
+  <section id="medlemskap" class="tiers" data-sc-drift="#0B110C">
+    <div class="sc-wrap tiers__grid">
+      <header class="tiers__head" data-sc-in>
+        <h2 class="tiers__title">Medlemskap på Patreon</h2>
+        <p class="tiers__lede">Analyser av aktier, råvaror och index, direkt från mig. Välj den nivå som passar dig.</p>
       </header>
 
-      <article class="plan">
-        <svg class="plan__icon" viewBox="0 0 64 64" aria-hidden="true">
-          <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <article class="tier tier--vip" data-sc-tilt="3" data-sc-spotlight>
+        <svg class="tier__icon" viewBox="0 0 64 64" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
             <rect x="6" y="6" width="52" height="38" rx="3"/><path d="M6 38h52M26 44v6M38 44v6M20 56h24"/>
             <circle cx="20" cy="18" r="4.5"/><path d="M12 38v-6a8 8 0 0 1 14-5.3l6-5.2"/><path d="M36 14h14M36 20h14M40 26h10"/>
           </g>
         </svg>
-        <p class="plan__source">Patreon</p>
-        <h3 class="plan__name">VIP-medlemskap</h3>
-        <p class="plan__price"><span data-price="vip">Se pris på Patreon</span></p>
-        <details class="plan__more">
+        <p class="tier__source">Patreon</p>
+        <h3 class="tier__name">VIP-medlemskap</h3>
+        <p class="tier__price"><span data-price="vip">Se pris på Patreon</span></p>
+        <details class="tier__more">
           <summary>Läs mer <span class="plus" aria-hidden="true"></span></summary>
-          <div class="plan__body">
-            <p class="plan__intro">Skapa dig en extremt bred kunskap om tekniska analyser och aktier för en otroligt liten summa per månad. Vad väntar du på, ta steget!</p>
+          <div class="tier__body">
+            <p><strong>Skapa dig en extremt bred kunskap om tekniska analyser och aktier för en otroligt liten summa per månad. Vad väntar du på, ta steget!</strong></p>
             <ul class="ticks">
               <li>Få tillgång att fråga mig om vad som helst som har med teknisk analys och aktier att göra. Just du prioriteras, och jag svarar alltid så fort som möjligt.</li>
               <li>Få tillgång till en rad olika videos och bilder där jag analyserar diverse aktier, råvaror och index.</li>
@@ -171,54 +172,53 @@
             </ul>
           </div>
         </details>
-        <a class="btn" data-link="patreonVip" href="#">Bli medlem</a>
+        <a class="btn btn--dark" data-link="patreonVip" href="#">Bli medlem</a>
       </article>
 
-      <article class="plan plan--exclusive">
-        <svg class="plan__icon" viewBox="0 0 64 64" aria-hidden="true">
-          <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <article class="tier tier--exclusive" data-sc-tilt="3" data-sc-spotlight>
+        <svg class="tier__icon" viewBox="0 0 64 64" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 6h20a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-6l-4 4-4-4h-6a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3Z"/>
             <path d="M10 10H8a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3l3 3M54 10h2a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3l-3 3"/>
             <circle cx="32" cy="36" r="5.5"/><circle cx="14" cy="40" r="4"/><circle cx="50" cy="40" r="4"/>
             <path d="M22 58v-3a10 10 0 0 1 20 0v3M6 56v-1a8 8 0 0 1 12-7M58 56v-1a8 8 0 0 0-12-7"/>
           </g>
         </svg>
-        <p class="plan__source">Patreon</p>
-        <h3 class="plan__name">Exklusiv</h3>
-        <p class="plan__price"><span class="plan__amount">295 kr</span> <span class="plan__per">per månad</span></p>
-        <details class="plan__more">
+        <p class="tier__source">Patreon</p>
+        <h3 class="tier__name">Exklusiv</h3>
+        <p class="tier__price"><span class="tier__amount">295 kr</span><span class="tier__per">/mån</span></p>
+        <details class="tier__more">
           <summary>Läs mer <span class="plus" aria-hidden="true"></span></summary>
-          <div class="plan__body">
+          <div class="tier__body">
             <p data-todo="exklusiv-innehall">Allt som ingår i VIP-medlemskapet, plus exklusivt innehåll för dig som vill följa analyserna ännu närmare. Se hela innehållet på Patreon.</p>
           </div>
         </details>
-        <a class="btn" data-link="patreonExklusiv" href="#">Bli medlem</a>
+        <a class="btn btn--dark" data-link="patreonExklusiv" href="#">Bli medlem</a>
       </article>
     </div>
   </section>
 
   <!-- 5 · COURSE (peak): pin, the book turns and opens -->
-  <section id="kurs" class="course" data-sc-act="pin" data-sc-span="3">
+  <section id="kurs" class="course" data-sc-act="pin" data-sc-span="3.2" data-sc-drift="#0B110C">
     <div data-sc-stage class="course__stage">
       <div class="course__book" aria-hidden="true">
         <div class="book" data-book>
           <div class="book__back"></div>
           <div class="book__pages"></div>
           <div class="book__top"></div>
-          <div class="book__bottom"></div>
           <div class="book__spine"><span>Fundamental analys</span></div>
           <div class="book__first">
             <p class="book__first-kicker">Kapitel 1</p>
             <p class="book__first-title">Introduktion</p>
             <p class="book__first-text">Beskrivning av kursen och vad läsaren kan förvänta sig.</p>
-            <svg class="book__first-chart" viewBox="0 0 120 50"><path d="M2 44 L20 38 L34 41 L50 28 L64 31 L82 18 L96 21 L118 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+            <svg class="book__first-chart" viewBox="0 0 120 50"><path d="M2 44 L20 38 L34 41 L50 28 L64 31 L82 18 L96 21 L118 6" fill="none" stroke="currentColor" stroke-width="2"/></svg>
           </div>
           <div class="book__cover">
             <div class="book__cover-front">
               <svg class="book__mark" viewBox="36 6 48 40"><use href="#case"/><g class="ticker ticker--final"><rect x="45.4" y="34" width="2.2" height="9" rx=".5"/><rect x="52" y="30" width="2.2" height="13" rx=".5"/><rect x="58.6" y="26" width="2.2" height="17" rx=".5"/><rect x="65.6" y="22" width="2.2" height="21" rx=".5"/><rect x="72.6" y="19" width="2.2" height="24" rx=".5"/></g></svg>
               <p class="book__title">Fundamental analys</p>
               <p class="book__sub">En komplett utbildning</p>
-              <p class="book__brand">Stockrobber</p>
+              <p class="book__brand">STOCKROBBER</p>
             </div>
             <div class="book__cover-inside"></div>
           </div>
@@ -230,13 +230,13 @@
         <p class="course__kicker">Kurs</p>
         <h2 class="course__title">Investera i en komplett utbildning inom fundamental analys och maximera din avkastning</h2>
         <ol class="course__list">
-          <li data-sc-cue="0.22"><b>Introduktion.</b> Beskrivning av kursen och vad läsaren kan förvänta sig.</li>
-          <li data-sc-cue="0.30" data-todo="kapitel"><b>Bolagsanalys.</b> Läs ett bolag genom dess affärsmodell och nyckeltal.</li>
-          <li data-sc-cue="0.38" data-todo="kapitel"><b>Värdering.</b> Räkna fram vad en aktie är värd och jämför med priset.</li>
-          <li data-sc-cue="0.46" data-todo="kapitel"><b>Rapporter.</b> Hitta det som spelar roll i en kvartals- och årsrapport.</li>
-          <li data-sc-cue="0.54" data-todo="kapitel"><b>Portföljen.</b> Bygg, följ upp och hantera risk över tid.</li>
+          <li data-sc-cue="0.24"><b>Introduktion:</b> beskrivning av kursen och vad läsaren kan förvänta sig.</li>
+          <li data-sc-cue="0.32" data-todo="kapitel"><b>Bolagsanalys:</b> läs ett bolag genom dess affärsmodell och nyckeltal.</li>
+          <li data-sc-cue="0.40" data-todo="kapitel"><b>Värdering:</b> räkna fram vad en aktie är värd och jämför med priset.</li>
+          <li data-sc-cue="0.48" data-todo="kapitel"><b>Rapporter:</b> hitta det som spelar roll i en kvartals- och årsrapport.</li>
+          <li data-sc-cue="0.56" data-todo="kapitel"><b>Portföljen:</b> bygg, följ upp och hantera risk över tid.</li>
         </ol>
-        <div class="course__actions" data-sc-cue="0.58">
+        <div class="course__actions" data-sc-cue="0.6">
           <a class="btn" data-link="kurs" href="#">Läs mer om kursen</a>
           <a class="link" data-link="kurser" href="#">Alla kurser</a>
         </div>
@@ -244,65 +244,60 @@
     </div>
   </section>
 
-  <!-- 6 · CONTACT -->
-  <section id="kontakt" class="contact">
+  <!-- 6 · CLOSE: contact, the ticker settles -->
+  <section id="kontakt" class="contact" data-sc-drift="#0B110C">
     <div class="sc-wrap contact__grid">
       <div class="contact__intro" data-sc-in>
+        <svg class="contact__mark" viewBox="36 6 48 40" aria-hidden="true"><use href="#case"/><g class="ticker" data-ticker><rect x="45.4" y="31" width="2.2" height="12" rx=".5"/><rect x="52" y="23" width="2.2" height="20" rx=".5"/><rect x="58.6" y="26" width="2.2" height="17" rx=".5"/><rect x="65.6" y="36" width="2.2" height="7" rx=".5"/><rect x="72.6" y="23" width="2.2" height="20" rx=".5"/></g></svg>
         <h2 class="contact__title">Frågor om kursen eller medlemskapen?</h2>
         <p class="contact__lede">Skriv några rader så svarar jag så fort jag kan.</p>
       </div>
 
       <form class="form" id="contact-form" novalidate data-sc-in>
-        <div class="form__row">
-          <div class="field">
-            <label for="f-name">Namn</label>
-            <input id="f-name" name="name" type="text" autocomplete="name" required>
-            <p class="field__error" id="f-name-err" hidden>Skriv ditt namn.</p>
-          </div>
-          <div class="field">
-            <label for="f-email">E-post</label>
-            <input id="f-email" name="email" type="email" autocomplete="email" required>
-            <p class="field__error" id="f-email-err" hidden>Skriv en giltig e-postadress, till exempel namn@exempel.se.</p>
-          </div>
+        <div class="field">
+          <label for="f-name">Namn</label>
+          <input id="f-name" name="name" type="text" autocomplete="name" required>
+          <p class="field__error" id="f-name-err" hidden>Skriv ditt namn.</p>
+        </div>
+        <div class="field">
+          <label for="f-email">E-post</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required>
+          <p class="field__error" id="f-email-err" hidden>Skriv en giltig e-postadress, till exempel namn@exempel.se.</p>
         </div>
         <div class="field">
           <label for="f-msg">Meddelande</label>
           <textarea id="f-msg" name="message" rows="5" required></textarea>
           <p class="field__error" id="f-msg-err" hidden>Skriv ett meddelande.</p>
         </div>
-        <div class="form__end">
-          <button class="btn" type="submit">Skicka meddelande</button>
-          <p class="form__status" role="status" aria-live="polite"></p>
-        </div>
+        <button class="btn" type="submit">Skicka meddelande</button>
+        <p class="form__status" role="status" aria-live="polite"></p>
       </form>
     </div>
+
+    <footer class="foot sc-wrap">
+      <a class="foot__brand" href="#top" aria-label="Stockrobber, till början av sidan">
+        <svg class="logo" viewBox="36 6 230 40" aria-hidden="true">
+          <use href="#case"/>
+          <g class="ticker ticker--final"><rect x="45.4" y="34" width="2.2" height="9" rx=".5"/><rect x="52" y="30" width="2.2" height="13" rx=".5"/><rect x="58.6" y="26" width="2.2" height="17" rx=".5"/><rect x="65.6" y="22" width="2.2" height="21" rx=".5"/><rect x="72.6" y="19" width="2.2" height="24" rx=".5"/></g>
+          <text x="90" y="43" class="logo__stock" textLength="80" lengthAdjust="spacingAndGlyphs">STOCK</text>
+          <text x="173" y="43" class="logo__robber" textLength="90" lengthAdjust="spacingAndGlyphs">ROBBER</text>
+        </svg>
+      </a>
+      <ul class="foot__links">
+        <li><a href="#medlemskap">Patreon</a></li>
+        <li><a data-link="skolaGrunder" href="#">Lilla aktieskolan</a></li>
+        <li><a href="#kurs">Kurser</a></li>
+        <li><a data-link="omMig" href="#">Om Stockrobber</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+      <p class="foot__small">© <span data-year>2026</span> Stockrobber. Innehållet är utbildning, inte finansiell rådgivning. Historisk avkastning är ingen garanti för framtida avkastning.</p>
+    </footer>
   </section>
 
 </main>
 
-<!-- CLOSE: the forest band. The full logo, every bar green. -->
-<footer class="foot">
-  <div class="sc-wrap foot__inner">
-    <a class="foot__brand" href="#top" aria-label="Stockrobber, till början av sidan">
-      <svg class="logo logo--large" viewBox="36 6 230 40" aria-hidden="true">
-        <use href="#case"/>
-        <g class="ticker" data-ticker><rect x="45.4" y="31" width="2.2" height="12" rx=".5"/><rect x="52" y="23" width="2.2" height="20" rx=".5"/><rect x="58.6" y="26" width="2.2" height="17" rx=".5"/><rect x="65.6" y="36" width="2.2" height="7" rx=".5"/><rect x="72.6" y="23" width="2.2" height="20" rx=".5"/></g>
-        <text x="90" y="43" class="logo__stock" textLength="80" lengthAdjust="spacingAndGlyphs">STOCK</text>
-        <text x="173" y="43" class="logo__robber" textLength="90" lengthAdjust="spacingAndGlyphs">ROBBER</text>
-      </svg>
-    </a>
-    <ul class="foot__links">
-      <li><a href="#medlemskap">Patreon</a></li>
-      <li><a data-link="skolaGrunder" href="#">Lilla aktieskolan</a></li>
-      <li><a href="#kurs">Kurser</a></li>
-      <li><a data-link="omMig" href="#">Om Stockrobber</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
-    </ul>
-    <p class="foot__small">© <span data-year>2026</span> Stockrobber. Innehållet är utbildning, inte finansiell rådgivning. Historisk avkastning är ingen garanti för framtida avkastning.</p>
-  </div>
-</footer>
-
 <script src="js/scrollcraft.js"></script>
 <script src="js/site.js"></script>
+<script type="module" src="js/hero3d.js"></script>
 </body>
 </html>
