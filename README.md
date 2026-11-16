@@ -93,6 +93,9 @@ Three.js (MIT), Archivo och Geist (SIL Open Font License), scroll-craft-motorn (
 ## Heron: svara på frågan
 Rubriken är en fråga, så heron har två svarsknappar ("Ja. Jag vill följa analyserna" / "Ja. Jag vill lära mig grunderna"). Ett klick för besökaren direkt till Vägvalet med fråga 1 redan besvarad. Händelsen `sr_hero_answer` skickas till `window.dataLayer`. Hero-bilden är originalfotot från den gamla sidan (`assets/hero-photo.webp`), med sin egen bakgrund, som tonar ut i graferna.
 
+## Kurvan blir beviset
+Ingressen och Patreon-beviset är ett enda scrollmoment: texten berättar medan grafen ritas, vänder och klättrar. När kurvan nått toppen landar "Sveriges mest framgångsrika Patreon*" med en knapp till medlemskapen, och topplistebilden fästs som ett skarpt urklipp. Tidpunkterna styrs av `data-sc-cue` i `index.html` och av `--climb` i `js/site.js`.
+
 ## Vägvalet (medlemskapssektionen)
 Besökaren svarar på två frågor och rätt erbjudande (VIP, Exklusiv eller kursen) lyfts fram i kortleken, med en kort motivering och köpknapp. Valet sparas i webbläsaren (localStorage) och följer med nedåt sidan i en liten list längst ner. "Visa alla tre sida vid sida" visar en vanlig jämförelse.
 

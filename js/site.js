@@ -112,7 +112,7 @@
   }
   var ingressEl = document.querySelector('.ingress');
   var courseEl = document.querySelector('.course');
-  var proofEl = document.querySelector('.proof');
+  var climbEl = document.querySelector('[data-climb]');
   var ingressAct = actFor(ingressEl);
   var courseAct = actFor(courseEl);
 
@@ -175,6 +175,13 @@
       return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1);
     }).join(' '));
     chart.appendChild(trendPath);
+    // the peak: where the climb ends and the proof begins
+    var peakPt = pts[pts.length - 1], peakY = y(data[data.length - 1].h) - 14;
+    ['c-peak-ring', 'c-peak'].forEach(function (cls) {
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute("cx", peakPt[0]); c.setAttribute('cy', peakY); c.setAttribute('r', cls === 'c-peak' ? 6 : 9);
+      c.setAttribute('class', cls); chart.appendChild(c);
+    });
     trendLen = trendPath.getTotalLength();
     trendPath.style.strokeDasharray = trendLen;
     trendPath.style.strokeDashoffset = reduce ? 0 : trendLen;
@@ -227,20 +234,21 @@
     if (chart && !reduce && ip !== last.ip) {
       var n = candles.length;
       for (var i = 0; i < n; i++) {
-        var on = ip >= 0.03 + i * (0.8 / n);
+        var on = ip >= 0.03 + i * (0.58 / n);
         if (candles[i]._on !== on) { candles[i]._on = on; candles[i].style.opacity = on ? 1 : 0; }
       }
-      trendPath.style.strokeDashoffset = (trendLen * (1 - smooth((ip - 0.05) / 0.85))).toFixed(1);
+      trendPath.style.strokeDashoffset = (trendLen * (1 - smooth((ip - 0.05) / 0.58))).toFixed(1);
+      if (climbEl) climbEl.style.setProperty('--climb', smooth((ip - 0.64) / 0.2).toFixed(3));
       last.ip = ip;
     }
 
-    var proofTop = proofEl ? proofEl.getBoundingClientRect().top : 1e9;
-    var pastTurn = ingressEl && (ip >= 0.6 || ingressEl.getBoundingClientRect().bottom < innerHeight * 0.5);
-    var pastProof = proofTop < innerHeight * 0.45;
+    var pastTurn = ip >= 0.46;
+    var pastProof = ip >= 0.72;
     var tk = reduce ? 1 : t;
     var key = tk.toFixed(4) + pastTurn + pastProof;
     if (key !== last.tk) { setTicker(tk, !(pastTurn || reduce), !(pastProof || reduce)); last.tk = key; }
 
+    if (reduce && climbEl) climbEl.style.setProperty('--climb', 1);
     var cp = reduce ? 1 : (courseAct ? courseAct.p : 0);
     if (cp !== last.cp) { setBook(cp); last.cp = cp; }
 

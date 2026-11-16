@@ -265,11 +265,12 @@ p { margin: 0; }
   .hero__title { font-size: clamp(2rem, 7.4vw, 2.6rem); }
   .hero__scrim { width: 100%; inset: 0; background: linear-gradient(to bottom, rgb(11 17 12 / .78) 0, rgb(11 17 12 / .35) 52%, transparent 70%); }
   .hero { overflow-x: clip; }
-  .hero__person { left: auto; right: 0; height: 50vh; max-width: 100vw; }
+  .hero__person { left: auto; right: 0; bottom: -9vh; height: 48vh; max-width: 100vw; }
   .hero__person img { object-position: bottom right; }
   .answer { grid-template-columns: 1fr; gap: 10px; }
   .answer__opt { min-height: 60px; padding-block: 10px; }
-  .hero__proof { font-size: .8rem; }
+  .hero__proof { font-size: .8rem; padding: 7px 12px; border-radius: 12px; background: rgb(11 17 12 / .82); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--sc-ink); }
+  .hero__under { gap: 8px 20px; }
   .hero__fore { height: 22vh; bottom: 8vh; }
 }
 
@@ -309,27 +310,46 @@ p { margin: 0; }
   .ingress__stage { align-items: start; padding-top: calc(var(--sr-bar-h) + 8vh); }
 }
 
-/* -------------------------------------------------------------- 3 · PROOF */
-.proof { position: relative; padding-block: clamp(80px, 12vw, 180px) clamp(72px, 9vw, 140px); }
-.proof__media {
-  margin: 0; height: clamp(220px, 28vw, 440px); overflow: hidden; position: relative;
-}
-.proof__media img {
-  width: 100%; height: 118%; object-fit: cover; object-position: 50% 50%; max-width: none;
-  transform: translate3d(0, calc(var(--sc-p, .5) * -12%), 0) scale(1.04);
-  filter: saturate(1.05) contrast(1.05);
-}
-.proof__media::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(to bottom, rgb(11 17 12 / .1), rgb(11 17 12 / .55));
-}
-.proof__copy { position: relative; margin-top: clamp(-120px, -7vw, -56px); z-index: 2; }
+/* ------------------------------------- 3 · PROOF (the end of the climb) */
+/* --climb runs 0..1 over the last third of the ingress pin (set in site.js) */
+.ingress__stage { --climb: 0; }
+.ingress__chart { transition: none; transform: translate3d(0, calc(var(--climb) * -9vh), 0) scale(calc(1 - var(--climb) * .06)); transform-origin: 100% 50%; }
+.ingress__chart .c-peak { fill: var(--sc-accent); opacity: var(--climb); }
+.ingress__chart .c-peak-ring { fill: none; stroke: var(--sc-accent); stroke-width: 1.5; opacity: calc(var(--climb) * .6); transform-box: fill-box; transform-origin: center; animation: ping 2.2s var(--sc-ease-out) infinite; }
+@keyframes ping { from { transform: scale(.6); stroke-opacity: .9; } to { transform: scale(2.6); stroke-opacity: 0; } }
+.ingress__proof { grid-area: 1 / 1; align-self: center; }
 .proof__title {
-  font-size: clamp(2.3rem, 1rem + 5vw, 6rem); font-weight: 800; line-height: .98; letter-spacing: -0.035em;
-  max-width: 13ch; text-shadow: 0 4px 40px rgb(0 0 0 / .4);
+  font-size: clamp(2.4rem, 1rem + 4.4vw, 5.4rem); font-weight: 800; line-height: .98; letter-spacing: -0.035em; max-width: 12ch;
 }
 .proof__star { color: var(--sc-accent); }
-.proof__note { margin-top: 18px; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
+.proof__note { margin-top: 16px; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
+.ingress__proof .btn { margin-top: clamp(22px, 3vh, 32px); }
+
+/* the evidence: a sharp clipping of the toplist, pinned to the chart */
+.clipping {
+  position: absolute; z-index: 1; margin: 0;
+  right: clamp(20px, 6vw, 110px); bottom: clamp(48px, 12vh, 140px); width: min(44vw, 660px);
+  padding: 10px 10px 12px; border-radius: 6px; background: #EEF2E7; color: #3B4636;
+  box-shadow: 0 40px 70px -30px rgb(0 0 0 / .75), 0 2px 8px rgb(0 0 0 / .3);
+  opacity: var(--climb);
+  transform: translate3d(0, calc((1 - var(--climb)) * 40vh), 0) rotate(calc(-7deg + var(--climb) * 4deg));
+  pointer-events: none;
+}
+.clipping img { display: block; width: 100%; height: auto; border-radius: 3px; }
+.clipping figcaption { margin-top: 9px; font-size: .78rem; line-height: 1.2; }
+.clipping::before {
+  /* a strip of tape */
+  content: ""; position: absolute; left: 50%; top: -12px; width: 86px; height: 24px; translate: -50% 0; rotate: 3deg;
+  background: rgb(var(--sr-accent-rgb) / .55); border-radius: 2px;
+}
+@media (max-width: 860px) {
+  .clipping { right: 16px; left: 16px; width: auto; bottom: 20vh; }
+  .ingress__proof .btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ingress__chart, .clipping { transform: none; }
+  .ingress__chart .c-peak-ring { animation: none; }
+}
 
 /* ---------------------------------------------- 4 · VÄGVALET (the path) */
 .path {

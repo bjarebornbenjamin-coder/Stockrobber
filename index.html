@@ -132,26 +132,23 @@
     </div>
   </section>
 
-  <!-- 2 · INGRESS: pin, the chart turns while the text does -->
-  <section class="ingress" data-sc-act="pin" data-sc-span="2.8" data-sc-drift="#0E1610">
-    <div data-sc-stage class="ingress__stage">
+  <!-- 2 · INGRESS + PROOF: one pin. The chart turns, climbs, and becomes the proof. -->
+  <section class="ingress" data-sc-act="pin" data-sc-span="3.6" data-sc-drift="#0E1610">
+    <div data-sc-stage class="ingress__stage" data-climb>
       <svg class="ingress__chart" data-chart viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+      <figure class="clipping" data-clipping>
+        <img src="assets/toplist.webp" width="1693" height="295" alt="Topplista över Patreon-kreatörer där Stockrobber syns" loading="lazy">
+      </figure>
       <div class="ingress__copy">
-        <p class="ingress__line" data-sc-cue="0 0.3 0 0.08">Det är många som känner att lönen inte riktigt räcker till.</p>
-        <p class="ingress__line" data-sc-cue="0.3 0.62 0.08 0.08">Varken för de upplevelser eller de finansiella mål man har.</p>
-        <p class="ingress__line ingress__line--turn" data-sc-cue="0.62 1 0.08 0.06">Med rätt kunskap kan börsen ändra på det. Teknisk och fundamental analys, steg för steg.</p>
+        <p class="ingress__line" data-sc-cue="0 0.24 0 0.06">Det är många som känner att lönen inte riktigt räcker till.</p>
+        <p class="ingress__line" data-sc-cue="0.24 0.46 0.06 0.06">Varken för de upplevelser eller de finansiella mål man har.</p>
+        <p class="ingress__line ingress__line--turn" data-sc-cue="0.46 0.68 0.06 0.06">Med rätt kunskap kan börsen ändra på det. Teknisk och fundamental analys, steg för steg.</p>
+        <div class="ingress__proof" data-sc-cue="0.7">
+          <h2 class="proof__title">Sveriges mest framgångsrika Patreon<span class="proof__star">*</span></h2>
+          <p class="proof__note">*2021, enligt TV4 Nyhetsmorgon</p>
+          <a class="btn" href="#medlemskap">Se medlemskapen</a>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- 3 · PROOF: flow + iris reveal -->
-  <section class="proof" data-sc-drift="#0B110C">
-    <figure class="proof__media" data-sc-reveal="iris" data-sc-reveal-at="0.08 0.42">
-      <img src="assets/toplist.webp" width="1693" height="295" alt="Topplista över Patreon-kreatörer där Stockrobber syns" loading="lazy">
-    </figure>
-    <div class="sc-wrap proof__copy">
-      <h2 class="proof__title" data-sc-in>Sveriges mest framgångsrika Patreon<span class="proof__star">*</span></h2>
-      <p class="proof__note" data-sc-in>*2021, enligt TV4 Nyhetsmorgon</p>
     </div>
   </section>
 
