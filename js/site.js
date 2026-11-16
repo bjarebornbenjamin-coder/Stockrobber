@@ -248,6 +248,153 @@
   }
   requestAnimationFrame(frame);
 
+  // ------------------------------------------------------------ vägvalet
+  // Two questions bring the right offer to the front of the deck. The
+  // choice is remembered and follows the reader down the page in the dock.
+  var pathEl = document.querySelector('.path');
+  var deck = document.querySelector('[data-deck]');
+  var quiz = document.querySelector('[data-quiz]');
+  if (pathEl && deck && quiz) {
+    var ORDER = ['kurs', 'vip', 'exklusiv'];
+    var OFFERS = {
+      vip: { name: 'VIP-medlemskap', price: '', reason: 'Passar dig: analyser löpande och möjlighet att fråga mig.' },
+      exklusiv: { name: 'Exklusiv', price: '295 kr/mån', reason: 'Passar dig: du vill följa analyserna så nära som möjligt.' },
+      kurs: { name: 'Kursen i fundamental analys', price: '', reason: 'Passar dig: du vill lära dig grunderna ordentligt.' }
+    };
+    var COMBO_REASON = 'Passar dig: kursen som grund. Lägg till VIP-medlemskapet för löpande analyser.';
+    var cards = {};
+    deck.querySelectorAll('[data-offer]').forEach(function (c) { cards[c.getAttribute('data-offer')] = c; });
+    var steps = {};
+    quiz.querySelectorAll('[data-step]').forEach(function (s) { steps[s.getAttribute('data-step')] = s; });
+    var resultEl = quiz.querySelector('.quiz__result');
+    var allBtn = pathEl.querySelector('[data-show-all]');
+    var dockEl = document.querySelector('[data-dock]');
+    var current = null, combo = false, showAll = false;
+
+    var store = {
+      get: function (k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+      set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+      del: function (k) { try { localStorage.removeItem(k); } catch (e) {} }
+    };
+
+    function showStep(name) {
+      Object.keys(steps).forEach(function (k) { steps[k].hidden = k !== name; });
+    }
+
+    function fitDeck() {
+      if (deck.getAttribute('data-state') === 'all') { deck.style.height = ''; return; }
+      var h = 0;
+      ORDER.forEach(function (k) { h = Math.max(h, cards[k].offsetHeight); });
+      deck.style.height = (h + 70) + 'px';
+    }
+
+    function layout() {
+      var state = showAll ? 'all' : current ? 'pick' : (deck.getAttribute('data-state') === 'stack' ? 'stack' : 'fan');
+      deck.setAttribute('data-state', state);
+      pathEl.classList.toggle('is-all', showAll);
+      var others = ORDER.filter(function (k) { return k !== current; });
+      ORDER.forEach(function (k) {
+        var c = cards[k];
+        var front = state === 'pick' && k === current;
+        var back = state === 'pick' && k !== current;
+        c.classList.toggle('is-front', front);
+        c.classList.toggle('is-back', back);
+        c.classList.toggle('is-back--l', back && others[0] === k);
+        c.classList.toggle('is-back--r', back && others[1] === k);
+        c.setAttribute('aria-hidden', back ? 'true' : 'false');
+        c.querySelectorAll('a, summary, button').forEach(function (el) {
+          if (back) el.setAttribute('tabindex', '-1'); else el.removeAttribute('tabindex');
+        });
+        var reason = c.querySelector('.offer__reason');
+        reason.textContent = front ? (combo && k === 'kurs' ? COMBO_REASON : (pick.byQuiz ? OFFERS[k].reason : '')) : '';
+      });
+      allBtn.textContent = showAll ? (current ? 'Visa mitt upplägg' : 'Dölj jämförelsen') : 'Visa alla tre sida vid sida';
+      allBtn.setAttribute('aria-pressed', String(showAll));
+      fitDeck();
+      updateDock();
+    }
+
+    var pick = { byQuiz: false };
+    function choose(key, opts) {
+      opts = opts || {};
+      current = key; combo = !!opts.combo; pick.byQuiz = !!opts.byQuiz; showAll = false;
+      store.set('sr-path', { pick: key, combo: combo, byQuiz: pick.byQuiz });
+      resultEl.textContent = 'Ditt upplägg: ' + OFFERS[key].name + (combo ? ', plus VIP-medlemskapet.' : '.');
+      showStep('done');
+      layout();
+      if (window.dataLayer) window.dataLayer.push({ event: 'sr_path', path: key, combo: combo });
+      if (opts.reveal && innerWidth <= 1000) cards[key].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    }
+
+    quiz.addEventListener('change', function (e) {
+      var v = e.target.value;
+      if (e.target.name === 'q1') { showStep(v); var first = steps[v].querySelector('input'); if (first) first.focus({ preventScroll: true }); return; }
+      if (v === 'kurs+vip') choose('kurs', { combo: true, byQuiz: true, reveal: true });
+      else choose(v, { byQuiz: true, reveal: true });
+    });
+    quiz.querySelector('[data-restart]').addEventListener('click', function () {
+      quiz.reset(); current = null; combo = false; showAll = false; store.del('sr-path');
+      showStep('1'); layout();
+      var first = steps['1'].querySelector('input'); if (first) first.focus();
+    });
+    allBtn.addEventListener('click', function () { showAll = !showAll; layout(); });
+
+    // A card behind the front one, or any card in the fan, is picked by clicking it.
+    deck.addEventListener('click', function (e) {
+      var card = e.target.closest('[data-offer]');
+      if (!card) return;
+      var state = deck.getAttribute('data-state');
+      var key = card.getAttribute('data-offer');
+      if (state === 'pick' && card.classList.contains('is-back')) { e.preventDefault(); choose(key); }
+      else if (state === 'fan' && !e.target.closest('a, summary, button')) { choose(key); }
+    }, true);
+
+    // The deck deals itself once, when it first comes into view.
+    if (!reduce && 'IntersectionObserver' in window && !store.get('sr-path')) {
+      deck.setAttribute('data-state', 'stack');
+      var dealt = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { dealt.disconnect(); setTimeout(function () { if (!current && !showAll) { deck.setAttribute('data-state', 'fan'); } }, 120); }
+      }, { threshold: 0.25 });
+      dealt.observe(deck);
+    }
+
+    // Keep the deck tall enough for whichever card is tallest, details open or not.
+    if ('ResizeObserver' in window) { var ro = new ResizeObserver(fitDeck); ORDER.forEach(function (k) { ro.observe(cards[k]); }); }
+    addEventListener('resize', fitDeck);
+
+    // ---- the dock
+    var pathVisible = true, dockClosed = false;
+    try { dockClosed = sessionStorage.getItem('sr-dock-closed') === '1'; } catch (e) {}
+    function updateDock() {
+      if (!dockEl) return;
+      var show = !!current && !pathVisible && !dockClosed;
+      if (current) {
+        var o = OFFERS[current];
+        var btn = cards[current].querySelector('.offer__actions .btn');
+        dockEl.querySelector('[data-dock-name]').textContent = o.name + (combo ? ' + VIP' : '');
+        dockEl.querySelector('[data-dock-price]').textContent = o.price;
+        var cta = dockEl.querySelector('[data-dock-cta]');
+        cta.textContent = btn.textContent;
+        cta.href = btn.getAttribute('href') === '#' ? '#offer-' + current : btn.href;
+      }
+      if (show) { dockEl.hidden = false; requestAnimationFrame(function () { dockEl.classList.add('is-shown'); }); }
+      else { dockEl.classList.remove('is-shown'); }
+    }
+    if (dockEl) {
+      dockEl.addEventListener('transitionend', function () { if (!dockEl.classList.contains('is-shown')) dockEl.hidden = true; });
+      dockEl.querySelector('[data-dock-close]').addEventListener('click', function () {
+        dockClosed = true; try { sessionStorage.setItem('sr-dock-closed', '1'); } catch (e) {}
+        updateDock();
+      });
+      new IntersectionObserver(function (en) { pathVisible = en[0].isIntersecting; updateDock(); }, { threshold: 0, rootMargin: '-140px 0px -140px 0px' }).observe(pathEl);
+    }
+
+    // A returning visitor gets their path back.
+    var saved = store.get('sr-path');
+    if (saved && OFFERS[saved.pick]) choose(saved.pick, { combo: saved.combo, byQuiz: saved.byQuiz });
+    else { showStep('1'); layout(); }
+  }
+
   // ------------------------------------------------------------- contact
   var form = document.getElementById('contact-form');
   if (form) {

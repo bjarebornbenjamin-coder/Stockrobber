@@ -89,3 +89,9 @@ Texter som är **platshållare** (syntes inte i underlaget) och som du bör byta
 
 ## Licenser
 Three.js (MIT), Archivo och Geist (SIL Open Font License), scroll-craft-motorn (MIT).
+
+## Vägvalet (medlemskapssektionen)
+Besökaren svarar på två frågor och rätt erbjudande (VIP, Exklusiv eller kursen) lyfts fram i kortleken, med en kort motivering och köpknapp. Valet sparas i webbläsaren (localStorage) och följer med nedåt sidan i en liten list längst ner. "Visa alla tre sida vid sida" visar en vanlig jämförelse.
+
+- Texterna för frågor och kort finns i `index.html` (sektionen `#medlemskap`), motiveringarna i `OFFERS` i `js/site.js`.
+- Varje val skickar händelsen `sr_path` till `window.dataLayer` om Google Tag Manager finns på sidan, så att du kan mäta vilka vägar som väljs och konverterar.

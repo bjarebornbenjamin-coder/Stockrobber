@@ -55,6 +55,9 @@ Djup = rörelseskillnad + ocklusion. Skuggor med offset: `0 30px 60px -20px rgb(
 - Topp: CSS 3D-bok som vrider sig och öppnas, styrd av aktens progress.
 - `prefers-reduced-motion`: inga pin-förflyttningar utöver motorns milda läge, WebGL renderar en stillbild, boken visas öppen, staplarna visar sluttillstånd.
 
+### Vägvalet (konvertering)
+Medlemskapssektionen är en guidad väljare: två frågor (radioknappar som stora val), en kortlek med tre erbjudanden som delas ut när sektionen syns, och det valda kortet lyfts fram med motivering medan de andra lägger sig bakom. Valet sparas och visas i en dockningslist längst ner när sektionen lämnats. Jämförelseläge visar alla tre i rutnät.
+
 ## 8. Do's and don'ts
 Do:
 1. Behåll alla menyval, knappar och priser från originalet.

@@ -113,7 +113,7 @@
         <h1 class="hero__title" data-split>Önskar du att bli framgångsrik på börsen genom tekniska och fundamentala analyser?</h1>
         <div class="hero__actions">
           <a class="btn" href="#kurs" data-sc-magnet="0.22">Mer om utbildningen</a>
-          <a class="link" href="#medlemskap">Se medlemskapen</a>
+          <a class="link" href="#medlemskap">Vilket upplägg passar mig?</a>
         </div>
       </div>
       <div class="hero__floor" aria-hidden="true"></div>
@@ -143,58 +143,93 @@
     </div>
   </section>
 
-  <!-- 4 · MEMBERSHIP: hard cut to sage -->
-  <section id="medlemskap" class="tiers" data-sc-drift="#0B110C">
-    <div class="sc-wrap tiers__grid">
-      <header class="tiers__head" data-sc-in>
-        <h2 class="tiers__title">Medlemskap på Patreon</h2>
-        <p class="tiers__lede">Analyser av aktier, råvaror och index, direkt från mig. Välj den nivå som passar dig.</p>
-      </header>
+  <!-- 4 · VÄGVALET: hard cut to sage. Two questions, the deck answers. -->
+  <section id="medlemskap" class="path" data-sc-act="flow" data-sc-drift="#0B110C">
+    <div class="sc-wrap path__grid">
+      <div class="path__ask">
+        <h2 class="path__title">Vilken väg in passar dig?</h2>
+        <p class="path__lede">Två frågor, så lyfter jag fram det upplägg som passar hur du vill lära dig.</p>
 
-      <article class="tier tier--vip" data-sc-tilt="3" data-sc-spotlight>
-        <svg class="tier__icon" viewBox="0 0 64 64" aria-hidden="true">
-          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="6" y="6" width="52" height="38" rx="3"/><path d="M6 38h52M26 44v6M38 44v6M20 56h24"/>
-            <circle cx="20" cy="18" r="4.5"/><path d="M12 38v-6a8 8 0 0 1 14-5.3l6-5.2"/><path d="M36 14h14M36 20h14M40 26h10"/>
-          </g>
-        </svg>
-        <p class="tier__source">Patreon</p>
-        <h3 class="tier__name">VIP-medlemskap</h3>
-        <p class="tier__price"><span data-price="vip">Se pris på Patreon</span></p>
-        <details class="tier__more">
-          <summary>Läs mer <span class="plus" aria-hidden="true"></span></summary>
-          <div class="tier__body">
-            <p><strong>Skapa dig en extremt bred kunskap om tekniska analyser och aktier för en otroligt liten summa per månad. Vad väntar du på, ta steget!</strong></p>
-            <ul class="ticks">
-              <li>Få tillgång att fråga mig om vad som helst som har med teknisk analys och aktier att göra. Just du prioriteras, och jag svarar alltid så fort som möjligt.</li>
-              <li>Få tillgång till en rad olika videos och bilder där jag analyserar diverse aktier, råvaror och index.</li>
-              <li>Få möjligheten att se mina köp innan den stora massan, på denna plattform.</li>
-            </ul>
-          </div>
-        </details>
-        <a class="btn btn--dark" data-link="patreonVip" href="#">Bli medlem</a>
-      </article>
+        <form class="quiz" data-quiz>
+          <fieldset class="quiz__step" data-step="1">
+            <legend><span class="quiz__count">Fråga 1 av 2</span><span class="quiz__q">Hur vill du lära dig?</span></legend>
+            <label class="opt"><input type="radio" name="q1" value="follow"><span class="opt__body"><b>Följa analyser löpande</b><span>Aktier, råvaror och index, när det händer.</span></span></label>
+            <label class="opt"><input type="radio" name="q1" value="learn"><span class="opt__body"><b>Lära mig grunderna ordentligt</b><span>En komplett utbildning i fundamental analys.</span></span></label>
+          </fieldset>
 
-      <article class="tier tier--exclusive" data-sc-tilt="3" data-sc-spotlight>
-        <svg class="tier__icon" viewBox="0 0 64 64" aria-hidden="true">
-          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 6h20a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-6l-4 4-4-4h-6a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3Z"/>
-            <path d="M10 10H8a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3l3 3M54 10h2a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3l-3 3"/>
-            <circle cx="32" cy="36" r="5.5"/><circle cx="14" cy="40" r="4"/><circle cx="50" cy="40" r="4"/>
-            <path d="M22 58v-3a10 10 0 0 1 20 0v3M6 56v-1a8 8 0 0 1 12-7M58 56v-1a8 8 0 0 0-12-7"/>
-          </g>
-        </svg>
-        <p class="tier__source">Patreon</p>
-        <h3 class="tier__name">Exklusiv</h3>
-        <p class="tier__price"><span class="tier__amount">295 kr</span><span class="tier__per">/mån</span></p>
-        <details class="tier__more">
-          <summary>Läs mer <span class="plus" aria-hidden="true"></span></summary>
-          <div class="tier__body">
-            <p data-todo="exklusiv-innehall">Allt som ingår i VIP-medlemskapet, plus exklusivt innehåll för dig som vill följa analyserna ännu närmare. Se hela innehållet på Patreon.</p>
+          <fieldset class="quiz__step" data-step="follow" hidden>
+            <legend><span class="quiz__count">Fråga 2 av 2</span><span class="quiz__q">Hur nära vill du följa mig?</span></legend>
+            <label class="opt"><input type="radio" name="q2" value="vip"><span class="opt__body"><b>Analyser och möjlighet att fråga</b><span>Videos, bilder och svar på dina frågor.</span></span></label>
+            <label class="opt"><input type="radio" name="q2" value="exklusiv"><span class="opt__body"><b>Så nära som möjligt</b><span>Allt i VIP, plus exklusivt innehåll.</span></span></label>
+          </fieldset>
+
+          <fieldset class="quiz__step" data-step="learn" hidden>
+            <legend><span class="quiz__count">Fråga 2 av 2</span><span class="quiz__q">Vill du också följa mina analyser löpande?</span></legend>
+            <label class="opt"><input type="radio" name="q2" value="kurs"><span class="opt__body"><b>Nej, kursen räcker</b><span>Fokus på en sak i taget.</span></span></label>
+            <label class="opt"><input type="radio" name="q2" value="kurs+vip"><span class="opt__body"><b>Ja, gärna båda</b><span>Kursen som grund, analyserna som träning.</span></span></label>
+          </fieldset>
+
+          <div class="quiz__done" data-step="done" hidden>
+            <p class="quiz__result" role="status" aria-live="polite"></p>
+            <button class="link" type="button" data-restart>Börja om</button>
           </div>
-        </details>
-        <a class="btn btn--dark" data-link="patreonExklusiv" href="#">Bli medlem</a>
-      </article>
+        </form>
+
+        <button class="path__all" type="button" data-show-all aria-pressed="false">Visa alla tre sida vid sida</button>
+      </div>
+
+      <div class="deck" data-deck data-state="fan">
+        <article class="offer" data-offer="kurs" id="offer-kurs">
+          <p class="offer__reason" aria-hidden="true"></p>
+          <svg class="offer__icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10h18a6 6 0 0 1 6 6v40a5 5 0 0 0-5-5H10Z"/><path d="M54 10H36a6 6 0 0 0-6 6v40a5 5 0 0 1 5-5h19Z"/><path d="M38 40l5-5 4 3 5-7"/></g></svg>
+          <p class="offer__source">Kurs</p>
+          <h3 class="offer__name">Fundamental analys</h3>
+          <p class="offer__price">En komplett utbildning</p>
+          <ul class="ticks">
+            <li>Investera i en komplett utbildning inom fundamental analys och maximera din avkastning.</li>
+            <li>Börjar med en introduktion: vad kursen tar upp och vad du kan förvänta dig.</li>
+          </ul>
+          <div class="offer__actions">
+            <a class="btn btn--dark" data-link="kurs" href="#">Läs mer om kursen</a>
+            <a class="link" href="#kurs">Se innehållet</a>
+          </div>
+        </article>
+
+        <article class="offer" data-offer="vip" id="offer-vip">
+          <p class="offer__reason" aria-hidden="true"></p>
+          <svg class="offer__icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="52" height="38" rx="3"/><path d="M6 38h52M26 44v6M38 44v6M20 56h24"/><circle cx="20" cy="18" r="4.5"/><path d="M12 38v-6a8 8 0 0 1 14-5.3l6-5.2"/><path d="M36 14h14M36 20h14M40 26h10"/></g></svg>
+          <p class="offer__source">Patreon</p>
+          <h3 class="offer__name">VIP-medlemskap</h3>
+          <p class="offer__price"><span data-price="vip">Se pris på Patreon</span></p>
+          <ul class="ticks">
+            <li>Fråga mig om vad som helst inom teknisk analys och aktier. Just du prioriteras.</li>
+            <li>Videos och bilder där jag analyserar aktier, råvaror och index.</li>
+            <li>Se mina köp innan den stora massan.</li>
+          </ul>
+          <details class="offer__more">
+            <summary>Läs mer <span class="plus" aria-hidden="true"></span></summary>
+            <p>Skapa dig en extremt bred kunskap om tekniska analyser och aktier för en otroligt liten summa per månad. Vad väntar du på, ta steget! Jag svarar alltid så fort som möjligt.</p>
+          </details>
+          <div class="offer__actions"><a class="btn btn--dark" data-link="patreonVip" href="#">Bli medlem</a></div>
+        </article>
+
+        <article class="offer offer--dark" data-offer="exklusiv" id="offer-exklusiv">
+          <p class="offer__reason" aria-hidden="true"></p>
+          <svg class="offer__icon" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6h20a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-6l-4 4-4-4h-6a3 3 0 0 1-3-3V9a3 3 0 0 1 3-3Z"/><path d="M10 10H8a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3l3 3M54 10h2a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3l-3 3"/><circle cx="32" cy="36" r="5.5"/><circle cx="14" cy="40" r="4"/><circle cx="50" cy="40" r="4"/><path d="M22 58v-3a10 10 0 0 1 20 0v3M6 56v-1a8 8 0 0 1 12-7M58 56v-1a8 8 0 0 0-12-7"/></g></svg>
+          <p class="offer__source">Patreon</p>
+          <h3 class="offer__name">Exklusiv</h3>
+          <p class="offer__price"><span class="offer__amount">295 kr</span><span class="offer__per">/mån</span></p>
+          <ul class="ticks">
+            <li>Allt som ingår i VIP-medlemskapet.</li>
+            <li data-todo="exklusiv-innehall">Exklusivt innehåll för dig som vill följa analyserna ännu närmare.</li>
+          </ul>
+          <details class="offer__more">
+            <summary>Läs mer <span class="plus" aria-hidden="true"></span></summary>
+            <p data-todo="exklusiv-innehall">Se hela innehållet i nivån på Patreon.</p>
+          </details>
+          <div class="offer__actions"><a class="btn" data-link="patreonExklusiv" href="#">Bli medlem</a></div>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -295,6 +330,16 @@
   </section>
 
 </main>
+
+<!-- The chosen path follows the reader down the page -->
+<aside class="dock" data-dock hidden aria-label="Ditt upplägg">
+  <svg class="dock__mark" viewBox="36 6 48 40" aria-hidden="true"><use href="#case"/><g class="ticker ticker--final"><rect x="45.4" y="34" width="2.2" height="9" rx=".5"/><rect x="52" y="30" width="2.2" height="13" rx=".5"/><rect x="58.6" y="26" width="2.2" height="17" rx=".5"/><rect x="65.6" y="22" width="2.2" height="21" rx=".5"/><rect x="72.6" y="19" width="2.2" height="24" rx=".5"/></g></svg>
+  <p class="dock__text"><span class="dock__label">Ditt upplägg</span> <b data-dock-name></b> <span class="dock__price" data-dock-price></span></p>
+  <a class="btn dock__cta" data-dock-cta href="#">Bli medlem</a>
+  <button class="dock__close" type="button" data-dock-close aria-label="Stäng">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+</aside>
 
 <script src="js/scrollcraft.js"></script>
 <script src="js/site.js"></script>
